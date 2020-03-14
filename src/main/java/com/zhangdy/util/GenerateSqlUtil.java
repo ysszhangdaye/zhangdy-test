@@ -1,61 +1,63 @@
 package com.zhangdy.util;
 
-import com.zhangdy.test.annotation.Colume;
-import com.zhangdy.test.annotation.Format;
+import com.zhangdy.test.annotation.Column;
+import com.zhangdy.test.annotation.AutoGenerateValue;
 import com.zhangdy.test.annotation.TableName;
-import com.zhangdy.test.wallet.IccWalletConfig;
+import com.zhangdy.test.enums.GenerateTypeEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
 
 public class GenerateSqlUtil {
 
-//    static final Map<String,String> valuesStrMap = new HashMap() {
-//        {
-//            put(BigDecimal.class.getSimpleName(), "%s");
-//            put(String.class.getSimpleName(), "'%s'");
-//            put(Long.class.getSimpleName(),  "%s");
-//            put(Integer.class.getSimpleName(),  "%s");
-//            put(Boolean.class.getSimpleName(),  "%s");
-//        }
-//    };
-
-
     public static String genSql(Object object) throws Exception{
         TableName tableName = object.getClass().getAnnotation(TableName.class);
+        if (tableName == null || StringUtils.isBlank(tableName.value())) {
+            throw new RuntimeException("表名不能为空！！！");
+        }
         Field[] fields = object.getClass().getDeclaredFields();
         SQL sql = new SQL(){{
             INSERT_INTO(tableName.value());
             for (Field field : fields) {
-
-                Colume colume = field.getAnnotation(Colume.class);
-                Format format = field.getAnnotation(Format.class);
-                String columeName = field.getName();
-                if (colume != null && colume.value() == null && !"".equalsIgnoreCase(colume.value())) {
-                    columeName = colume.value();
-                }
-
-                String formatStr = "'%s'";
-                if (format != null && format.value() == null && !"".equalsIgnoreCase(format.value())) {
-                    formatStr = format.value();
-                }
-
                 field.setAccessible(true);
-                Object value = field.get(object);
+                Object value = getValue(field, object);
                 if (value == null) {
                     continue;
                 }
-                VALUES(columeName, genValues(value, formatStr));
-            }
+                Column column = field.getAnnotation(Column.class);
+                String columnName = field.getName();
+                String formatStr = "'%s'";
 
+                if (column != null) {
+                    if (StringUtils.isNotBlank(column.value())) {
+                        columnName = column.value();
+                    }
+                    formatStr = column.format();
+                }
+                VALUES(columnName, String.format(formatStr, value));
+            }
         }};
         return sql.toString() + ";";
     }
-    public static String genValues(Object obj, String format){
-        return String.format(format, obj);
+
+
+    public static Object getValue(Field field, Object object){
+        AutoGenerateValue generateId = field.getAnnotation(AutoGenerateValue.class);
+        if (generateId != null) {
+            GenerateTypeEnum type = generateId.value();
+            if (GenerateTypeEnum.IDS.equals(type)) {
+                return IDS.uniqueID();
+            } else {
+                return UUID.randomUUID().toString().replaceAll("-", "");
+            }
+        }
+        try {
+            return field.get(object);
+        }catch (Exception e){
+        }
+        return null;
     }
 
 }

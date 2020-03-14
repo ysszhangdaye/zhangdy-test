@@ -2,6 +2,7 @@ package com.zhangdy.test.string;
 
 import com.google.common.collect.Lists;
 import com.zhangdy.util.ThreadUtil;
+import org.apache.http.nio.client.HttpAsyncClient;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,21 +34,19 @@ public class TestString {
     public static void main(String[] args) {
 
 
-       TestString a= new TestString();
-       a.test1();
 
-        String s = "hello";
-        String t = "hello";
-        char c[] = {'h', 'e', 'l', 'l', 'o'};
 
-        System.out.println(s.equals(t));
-        ;
-        System.out.println(t.equals(c));
-        ;
-        System.out.println(s == t);
-        ;
-        System.out.println(t.equals(new String("hello")));
-        ;
+//       TestString a= new TestString();
+//       a.test1();
+//
+        String a = "hello";
+        String b = "he"+"llo";
+        String c = new String("hello");
+        String d = new String("hel" + "lo");
+        System.out.println(a == b);
+        System.out.println(a == c);
+        System.out.println(b == c);
+        System.out.println(d == c);
 
 //
 //

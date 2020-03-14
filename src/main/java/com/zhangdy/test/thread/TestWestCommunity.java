@@ -23,15 +23,16 @@ public class TestWestCommunity extends Thread{
 
     public static void main(String[] args) throws Exception {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
+//        ExecutorService executorService = Executors.newFixedThreadPool(2);
+//
+////        login();
+//        ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
+//        TestWestCommunity testWestCommunity = new TestWestCommunity(5874, executorService);
+//        testWestCommunity.run();
+//        pool.scheduleWithFixedDelay(testWestCommunity, 5, 5, TimeUnit.MINUTES);
 
-//        login();
-        ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
-        TestWestCommunity testWestCommunity = new TestWestCommunity(5874, executorService);
-        testWestCommunity.run();
-        pool.scheduleWithFixedDelay(testWestCommunity, 5, 5, TimeUnit.MINUTES);
-
-
+        String s = HttpUtil.reqGetJson("http://www.icctoro.net/api/user/binary/getUserInfoById?userId=1", null);
+        System.out.println(s);
     }
 
 

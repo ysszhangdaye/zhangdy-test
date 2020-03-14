@@ -20,7 +20,11 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.11</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.1.1</version>
+        </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -149,12 +153,6 @@
             <artifactId>bcprov-jdk15</artifactId>
             <version>1.44</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.nuxeo.common/nuxeo-common -->
-        <!-- <dependency>
-           <groupId>org.nuxeo.common</groupId>
-           <artifactId>nuxeo-common</artifactId>
-           <version>10.10</version>
-         </dependency>-->
 
         <dependency>
             <groupId>com.aliyun.oss</groupId>

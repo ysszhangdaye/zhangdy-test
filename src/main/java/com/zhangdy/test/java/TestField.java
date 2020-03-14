@@ -2,96 +2,173 @@ package com.zhangdy.test.java;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.zhangdy.util.IDS;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TestField {
     public static void main(String[] args) throws Exception {
-        User user = new User();
-        user.setName("1");
-        System.out.println(JSON.toJSONString(user));
-        Field name = User.class.getDeclaredField("name");
-        name.setAccessible(true);
-        Object o = name.get(user);
-        System.out.println(o);
+//        TestField testField = new TestField();
+//        testField.testNoStream();
+//        testField.testStream();
+//        int x=20, y=5;
+//        System.out.println(x+y +""+(x+y)+y);
 
+        int a = Integer.parseInt("1024");
+        int b  =Integer.valueOf("1024").intValue();
+        System.out.println(a==b);
 
-        name.set(user, "sadasdsad");
-        System.out.println(JSON.toJSONString(user));
-//        Object[] a = {1, 2};
-//
-//        String format = MessageFormat.format("a{0}, {1}", a);
-//        System.out.println(format);
-
-
-//        List<User> u = Lists.newArrayList();
-//        u.add(new User("a"));
-//        u.add(new User("b"));
-//        u.add(new User("c"));
-//        u.add(new User("d"));
-//        u.add(new User("e"));
-//        u.add(new User("f"));
-//        u.add(new User("g"));
-//        convertList(u);
     }
 
-
-
-    public static void test1(Object o){
-        Field[] fields=o.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            System.out.println(field.getName());
+    public  long testNoStream(){
+        List<String> language = Lists.newArrayList();
+        language.add("zh-cn");
+        language.add("en-us");
+        User zhangsan = new User("zhangsan");
+        List<User> u = Lists.newArrayList();
+        User a = new User("a");
+        a.setLanguage(language);
+        a.setUser(Lists.newArrayList(zhangsan));
+        User b = new User("b");
+        b.setLanguage(language);
+        u.add(a);
+        u.add(b);
+        u.add(new User("c"));
+        u.add(new User("d"));
+        u.add(new User("e"));
+        u.add(new User("f"));
+        u.add(new User("g"));
+        for (int i=0;i<10000;i++) {
+            u.add(new User("g" + i));
+            a.setLanguage(language);
         }
+
+        long start = System.currentTimeMillis();
+        convertList(u);
+        long end = System.currentTimeMillis();
+//        System.out.println("耗时（毫秒）：" + (end - start));
+        return end - start;
     }
 
-    public static void convertList(Object obj){
+
+    public  long testStream(){
+        List<String> language = Lists.newArrayList();
+        language.add("zh-cn");
+        language.add("en-us");
+        User zhangsan = new User("zhangsan");
+        List<User> u = Lists.newArrayList();
+        User a = new User("a");
+        a.setLanguage(language);
+        a.setUser(Lists.newArrayList(zhangsan));
+        User b = new User("b");
+        b.setLanguage(language);
+        u.add(a);
+        u.add(b);
+        u.add(new User("c"));
+        u.add(new User("d"));
+        u.add(new User("e"));
+        u.add(new User("f"));
+        u.add(new User("g"));
+        for (int i=0;i<10000;i++) {
+            u.add(new User("g" + i));
+            a.setLanguage(language);
+        }
+
+        long start = System.currentTimeMillis();
+        convertListStream(u);
+        long end = System.currentTimeMillis();
+//        System.out.println("耗时（毫秒）：" + (end - start));
+        return end - start;
+    }
+
+
+
+    public  void convertList(Object obj){
+        List<?> list = (List<?>) obj;
+        for (Object o : list) {
+
+            Field[] fields = o.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                try {
+                    field.setAccessible(true);
+                    I18nConvert annotation = field.getAnnotation(I18nConvert.class);
+                    Object value = field.get(o);
+                    if (annotation == null || value == null) {
+                        continue;
+                    }
+                    System.out.println(field.getName());
+
+                    Field name = o.getClass().getDeclaredField("name");
+                    if (value instanceof List) {
+                        translateStringList(field, value, o);
+                        continue;
+                    }
+                    field.set(o,  value + " -> "+ IDS.uniqueID());
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+
+    public  void convertListStream(Object obj){
         List<?> list = (List<?>) obj;
         list.parallelStream().forEach(o -> {
-            Field[] fields=o.getClass().getDeclaredFields();
-            ArrayList<Field> fieldList = Lists.newArrayList(fields);
-            fieldList.parallelStream().forEach(field -> {
-                I18nConvert annotation = field.getAnnotation(I18nConvert.class);
-                if (annotation == null) {
-                    return;
+            Field[] fields = o.getClass().getDeclaredFields();
+            Lists.newArrayList(fields).parallelStream().forEach(field -> {
+                try {
+                    field.setAccessible(true);
+                    I18nConvert annotation = field.getAnnotation(I18nConvert.class);
+                    Object value = field.get(o);
+                    if (annotation == null || value == null) {
+                        return;
+                    }
+                    if (value instanceof List) {
+                        translateStringList(field, value, o);
+                        return;
+                    }
+                    field.set(o,  value + " -> "+ IDS.uniqueID());
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
-                String name = field.getName();
-                Object str = getFieldValueByName(name, o);
-                if (str ==null) {
-                    return;
-                }
-                setFieldValueByName(field.getName(), o, str + "222");
             });
         });
-        System.out.println(JSON.toJSONString(obj));
     }
 
-    public static void setFieldValueByName(String fieldName, Object o, String value) {
-        try {
-            String firstLetter = fieldName.substring(0, 1).toUpperCase();
-            String getter = "set" + firstLetter + fieldName.substring(1);
-            Method method = o.getClass().getMethod(getter, String.class);
-            method.invoke(o, value);
-        } catch (Exception e) {
-            e.printStackTrace();
-
+    public  void translateStringList(Field field, Object value, Object obj) throws Exception{
+        Type genericType = field.getGenericType();
+        if (null == genericType) {
+            return;
+        }
+        if (genericType instanceof ParameterizedType) {
+            ParameterizedType pt = (ParameterizedType) genericType;
+            Class<?> actualTypeArgument = (Class<?>)pt.getActualTypeArguments()[0];
+            if (String.class.equals(actualTypeArgument)) {
+                List<String> translateStringList = translateStringList((List<?>) value);
+                field.set(obj,  translateStringList);
+            } else {
+                convertList(value);
+            }
         }
     }
 
-    public static Object getFieldValueByName(String fieldName, Object o) {
-        try {
-            String firstLetter = fieldName.substring(0, 1).toUpperCase();
-            String getter = "get" + firstLetter + fieldName.substring(1);
-            Method method = o.getClass().getMethod(getter, new Class[] {});
-            Object value = method.invoke(o, new Object[] {});
-            return value;
-        } catch (Exception e) {
-            return null;
-        }
+    public  List<String> translateStringList(List<?> list){
+        List<String> result = Lists.newArrayList();
+        list.parallelStream().forEach(value -> {
+            {
+                if (value != null) {
+                    result.add(value.toString() + " language -> "+ IDS.uniqueID());
+                }
+            }
+        });
+        return result;
     }
+
 
 }

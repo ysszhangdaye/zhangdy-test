@@ -1,6 +1,8 @@
 package com.zhangdy.util;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import java.util.*;
 import java.util.stream.DoubleStream;
@@ -17,6 +19,8 @@ public class IDS implements Constant {
         idWorker = new IdWorker(workerId, dataCenterId, workerId + dataCenterId);
 //        idWorker = new IdWorker();
     }
+
+
 
 
     /**
@@ -328,9 +332,30 @@ public class IDS implements Constant {
 
     public static void main(String[] args) {
 
-        while (true) {
-            System.out.println(IDS.uniqueID());
+//        while (true) {
+//            System.out.println(IDS.uniqueID());
+//        }
+//        int workerId = Math.abs(NetUtil.getLocalMac().hashCode()) % 31;
+//        int dataCenterId = (int) ((Math.abs(NetUtil.getLocalHost().hashCode()) + SystemUtil.getPid()) % 31);
+
+        List<String> list = Lists.newArrayList();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        list.add("A");
+        list.add("A");
+        list.add("A");
+        list.add("A");
+        list.add("A");
+        Iterator<String> iterator = list.iterator();
+
+        while(iterator.hasNext()){
+            String next = iterator.next();
+            if ("C".equalsIgnoreCase(next)) {
+                iterator.remove();
+            }
         }
+        System.out.println(JSON.toJSONString(list));
 
     }
 

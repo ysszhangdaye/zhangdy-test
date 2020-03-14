@@ -6,13 +6,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class GenLanguageSql {
 
     public static void main(String[] args) {
 //        test("C:\\Users\\it\\Desktop\\account-er.txt");
-
+        test("D:\\a.sql");
 
     }
 
@@ -25,11 +26,11 @@ public class GenLanguageSql {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             String lineTxt = null;
             while ((lineTxt = br.readLine()) != null) {
-                String s = lineTxt.split("\t")[0];
-                String s1 = lineTxt.split("\t")[1];
+                String msg = lineTxt.split("\\|")[0];
+                String code = lineTxt.split("\\|")[1];
 
-                String format = String.format(SQL, s, "zh-cn", s1);
-                String format1 = String.format(SQL, s, "en-us", s1 + "-en");
+                String format = String.format(SQL, code, "zh-cn", msg);
+                String format1 = String.format(SQL, code, "en-us", msg + "-en");
                 System.out.println(format);
                 System.out.println(format1);
             }

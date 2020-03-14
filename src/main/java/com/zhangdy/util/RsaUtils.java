@@ -30,6 +30,7 @@ public class RsaUtils {
      * @throws Exception
      */
     public static Map<String, Object> initKey() throws Exception {
+
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(KEY_ALGORTHM);
         keyPairGenerator.initialize(1024);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -302,5 +303,19 @@ public class RsaUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+//        15616285817
+        String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCfC7SocuEOgIEeTUhl+vwAAyiLvcHQRd97y6qMukoqbaYFfLep+vN/Q5WxgVOUlWpOejnb7kXnVgtagWOgekuvyj42+y8AvFKdkQcnmzHCwiGETIgIcDn1+BtEtUkzpxCIdyUHM00v3kRmld/7XiHwUlT0Ql3FzOUuxqaiQYWh4wIDAQAB";
+        String data = "2913ebbab66e543d168f22512a82520364d16a14ea1184df7d21e1d64e4a4bad3855e405b2ffafa74b537c660d30207602c501e9098f5ce0961497b9c123bc8eee694cbca785190eb4b973f03ae1d879bedc13f3f938f995c362623b40dfe89888222b3dc5f6daf20dbaace993fe6a81723d12dfd202d23d84c1ad6f760ce946";
+        String privateKey = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJ8LtKhy4Q6AgR5NSGX6/AADKIu9wdBF33vLqoy6SiptpgV8t6n6839DlbGBU5SVak56OdvuRedWC1qBY6B6S6/KPjb7LwC8Up2RByebMcLCIYRMiAhwOfX4G0S1STOnEIh3JQczTS/eRGaV3/teIfBSVPRCXcXM5S7GpqJBhaHjAgMBAAECgYAcxHNC3LSUeO3h2zyzJXibT/bvf70kvN61d5s7pR5xGjAjYfGej0Ony0OyPaAuifAWjckVXL3MICYhkrHAfx5dPc2v8yWVZRmCbi/PILOfzAKDFAcloCHTuBps11NXUP65lf2TdEq6t283o0IvBd7CKLgY25AjyJIhWWxpB35dAQJBAOiYeRON1OIvjYkmIVOaod6rKJ6vvKSKyDeaZ/DIU0t/JkZIg5hQ1ZuEELKKl33brn7g1jve5hc185A5RSa8eaMCQQCvDKGCcL29kUGJGtSY/ckWNNr0aoJR2dsVaoL5+K14VT9czlDbgsm8d+EK/OIgKQ8ABbosIzvz7SCdqWQalTrBAkEAmXycUUID3CqDHKDz1wawkI6j5GuVcYM/cinLM0IObUB/kluhsy6Mdu5kUl1QcLY55PIbjTCe52wryN1x+4jePwJBAJUeiHPLQQe9NvvqHFOcVnIRYri2BwBdOxH6Y0s4+eW5kTmpFB57QwnHgbFPjf5hm8KkHl29QjRgu9kzVPCEUcECQDG5L067rbCw0jFCX02wb70ldWmDqzRR02WuQ/+T+cT0/zEgqc+g+TbvomX1lqY+cbGs1WVNiWTZemA/an+Tw1o=";
+
+        byte[] bytes1 = encryptByPublicKey ("zhangsan".getBytes(), publicKey);
+        System.out.println(toHexString(bytes1));
+
+        byte[] bytes = decryptByPrivateKey(toByteArray(data), privateKey);
+        System.out.println(new String(bytes));
+
     }
 }
