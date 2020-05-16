@@ -25,7 +25,6 @@ public class UserServiceProxy  implements InvocationHandler {
         System.out.println("请求方法：" + method.getName() + "，请求参数：" + JSON.toJSONString(args));
         long l = System.currentTimeMillis();
 
-        MyThead.sleep(1000L);
 
         Object invoke = method.invoke(service, args);
 
