@@ -7,7 +7,7 @@
     <groupId>com.zhangdy</groupId>
     <artifactId>zhangdy-test</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>zhangdy-test</name>
 
     <properties>
