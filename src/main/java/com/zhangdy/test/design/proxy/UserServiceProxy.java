@@ -1,8 +1,6 @@
 package com.zhangdy.test.design.proxy;
 
 import com.alibaba.fastjson.JSON;
-import com.zhangdy.test.design.proxy.impl.UserServiceImpl;
-import com.zhangdy.test.thread.MyThead;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
