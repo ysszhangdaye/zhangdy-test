@@ -1,11 +1,14 @@
 package com.zhangdy.test.string;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.zhangdy.util.ThreadUtil;
 import org.apache.http.nio.client.HttpAsyncClient;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 12933
@@ -33,20 +36,31 @@ public class TestString {
 
     public static void main(String[] args) {
 
+        List<String> list = Lists.newArrayList();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        System.out.println(String.join(",", list));
+        String str = String.join(",", list);
 
+      List<String>list1= Arrays.asList(str .split(","));
+
+
+        System.out.println(JSON.toJSONString(list1));
 
 
 //       TestString a= new TestString();
 //       a.test1();
-//
-        String a = "hello";
-        String b = "he"+"llo";
-        String c = new String("hello");
-        String d = new String("hel" + "lo");
-        System.out.println(a == b);
-        System.out.println(a == c);
-        System.out.println(b == c);
-        System.out.println(d == c);
+////
+//        String a = "hello";
+//        String b = "he"+"llo";
+//        String c = new String("hello");
+//        String d = new String("hel" + "lo");
+//        System.out.println(a == b);
+//        System.out.println(a == c);
+//        System.out.println(b == c);
+//        System.out.println(d == c);
 
 //
 //

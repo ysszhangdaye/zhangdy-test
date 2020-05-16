@@ -7,7 +7,7 @@
     <groupId>com.zhangdy</groupId>
     <artifactId>zhangdy-test</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-
+    <packaging>war</packaging>
     <name>zhangdy-test</name>
 
     <properties>
@@ -41,6 +41,11 @@
             <version>2.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
