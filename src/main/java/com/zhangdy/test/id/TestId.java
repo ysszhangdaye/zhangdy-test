@@ -15,7 +15,9 @@ import com.zhangdy.util.IdWorker;
 public class TestId {
 
     public static void main(String[] args) {
-        System.out.println(IDS.uniqueID());
+        for (int i=0;i<6;i++) {
+            System.out.println(IDS.uniqueID());
+        }
     }
 
 }

@@ -54,7 +54,6 @@ public class FileUtils {
             if (closeable != null) {
                 try {
                     closeable.close();
-                    closeable = null;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -68,7 +67,6 @@ public class FileUtils {
         if (channel != null) {
             try {
                 channel.close();
-                channel = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -91,7 +89,6 @@ public class FileUtils {
         if (outputStream != null) {
             try {
                 outputStream.close();
-                outputStream = null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -211,26 +208,25 @@ public class FileUtils {
         return null;
     }
     public static void writeToTxt(List<String> list, String path) {
-        FileOutputStream outSTr = null;
-        BufferedOutputStream buff = null;
+        FileWriter fw = null;
         try {
-            outSTr = new FileOutputStream(new File(path));
-            buff = new BufferedOutputStream(outSTr);
-
-            for (String str : list) {
-                buff.write(str.concat("\r\n").getBytes("UTF-8"));
-            }
-            buff.flush();
-            buff.close();
-        } catch (Exception e) {
+            //如果文件存在，则追加内容；如果文件不存在，则创建文件
+            File f=new File(path);
+            fw = new FileWriter(f, true);
+        } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                buff.close();
-                outSTr.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        }
+        PrintWriter pw = new PrintWriter(fw);
+        for (String str : list) {
+            pw.println(str);
+        }
+        pw.flush();
+        try {
+            fw.flush();
+            pw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -385,9 +381,7 @@ public class FileUtils {
         try {
             fis = new FileInputStream(FileUtils.getFile(pathName));
             if (fis.available() > 0) {
-
                 inputStream = new ObjectInputStream(fis);
-
                 return inputStream.readObject();
             }
         } catch (FileNotFoundException e) {

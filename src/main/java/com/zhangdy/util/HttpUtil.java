@@ -1,6 +1,7 @@
 package com.zhangdy.util;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
@@ -465,6 +466,7 @@ public class HttpUtil {
         }
         return result;
     }
+
 
 
 }

@@ -8,9 +8,9 @@ import java.util.List;
 
 public class DbBase {
 
-    protected static Connection conn;
 
     public static Connection getConnection(String url, String userName, String pwd) {
+        Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url, userName, pwd);
@@ -40,7 +40,16 @@ public class DbBase {
         }
     }
 
-    public static void closeStateMent(PreparedStatement pst) {
+    public static void closeStatement(PreparedStatement pst) {
+        try {
+            if (pst != null && !pst.isClosed()) {
+                pst.close();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public static void closeStatement(Statement pst) {
         try {
             if (pst != null && !pst.isClosed()) {
                 pst.close();

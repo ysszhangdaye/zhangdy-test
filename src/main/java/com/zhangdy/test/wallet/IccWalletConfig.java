@@ -1,99 +1,57 @@
 package com.zhangdy.test.wallet;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
+import com.google.common.collect.Lists;
+import com.zhangdy.test.annotation.AutoGenerateValue;
+import com.zhangdy.test.annotation.Column;
 import com.zhangdy.test.annotation.TableName;
-import com.zhangdy.util.GenerateSqlUtil;
-import com.zhangdy.util.IDS;
+import com.zhangdy.test.enums.GenerateTypeEnum;
 import com.zhangdy.util.RsaUtils;
 import lombok.*;
-import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class IccWalletConfig {
 
-
     static String pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDfautNs3QvgeHEuBLDlkLVRIT5X/dCme+yFjrE8EZpjdo2mKBr8SweRc08WWFO1J7lgcCJyXkJ8fPHDLlvzz6+F2PGSAOIfBuIDs3yBB2u+G7agvxhmvPucHiwzKymUNAtvAVkdZiZEWVqyVPlh6rgvv8q8WlxYs8qjvIy75XWqQIDAQAB";
-//
-//    public static void main(String[] args) {
-//        //2017-12-13
-//        String str = "12-13";
-//        //2017年每个月的天数
-//        List<Integer> dayOfMon = Arrays.asList(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-//        int month = Integer.parseInt(str.split("-")[0]);
-//        int day = Integer.parseInt(str.split("-")[1]);
-//        int result = (month - 1) * dayOfMon.get(month - 1) + day;
-//        System.out.println(str + " is the " + result + "th day of this year.");
-//    }
 
-//    static final Map<String,String> valuesStrMap = new HashMap() {
-//        {
-//            put(BigDecimal.class.getSimpleName(), "%s");
-//            put(String.class.getSimpleName(), "'%s'");
-//            put(Long.class.getSimpleName(),  "%s");
-//            put(Integer.class.getSimpleName(),  "%s");
-//        }
-//    };
-
-
-    public static int dayOfYear(String date) {
-
-        List<Integer> leapYearDayOfMonth      = Arrays.asList(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-        List<Integer> ordinaryYearDayOfMonth  = Arrays.asList(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-
-        String[] array = date.split("-");
-
-        int year = Integer.parseInt(array[0]);
-        int month =  Integer.parseInt(array[1]);
-        int day =   Integer.parseInt(array[2]);
-        if (isLeapYear(year)) {
-
-            int idx = 1;
-            for (Integer mon :leapYearDayOfMonth ) {
-                if (idx++ < month) {
-                    day += mon;
-                }
-            }
-
-
-        } else {
-            int idx = 1;
-            for (Integer mon :ordinaryYearDayOfMonth ) {
-                if (idx < month) {
-                    System.out.println(mon);
-                    day += mon;
-                }
-                idx++;
-            }
-            System.out.println(day);
-        }
-
-        return day;
+    static void f(double  s) {
+        System.out.println(1);
+    }
+    static void f(Integer i){
+        System.out.println(2);
 
     }
-
-    public static boolean isLeapYear(int year){
-
-        if ((year%4 == 0 && year%100!=0)   || year%400 == 0) {
-            return true;
-        }
-        return false;
-
-    }
-
+    <String, T, Alibaba> String get(String string, T t) { return string; }
 
     public static void main(String[] args) throws Exception{
-//        int i = dayOfYear("1900-03-25");
-//        System.out.println(i);
-//        System.out.println(1900&4 );
+//        BtcConfig.genConfigSql();
+//        EtcConfig.genConfigSql();
+//        EthConfig.genConfigSql();
+//        OmniUsdtConfig.genConfigSql();
+//        LtcConfig.genConfigSql();
 
-        BtcConfig.genConfigSql();
-        EtcConfig.genConfigSql();
-        EthConfig.genConfigSql();
-        OmniUsdtConfig.genConfigSql();
+        List<Integer> a = Lists.newArrayList();
+        a.add(1);
+        a.add(2);
+        a.add(3);
+        a.add(4);
+        List<String> strings = a.stream().map(x -> x + "").collect(Collectors.toList());
+        String join = String.join(",", strings);
+        System.out.println(join);
+
+        List<String> strings1 = Arrays.asList(join.split(","));
+
+
+        String url  = IccWalletConfig.encode("http://172.31.14.122:8332");
+        String user = IccWalletConfig.encode("dssj");
+        String pwd  = IccWalletConfig.encode("dssj123");
+
+        System.out.println("url :   "  + url);
+        System.out.println("user:   "  + user);
+        System.out.println("pwd :   "  + pwd);
     }
 
 
@@ -107,16 +65,22 @@ public class IccWalletConfig {
    @Getter @Setter @AllArgsConstructor @NoArgsConstructor @Builder
    @TableName("wallet_config")
    public static class Config {
+        @AutoGenerateValue(GenerateTypeEnum.IDS)
+        @Column(format = "%s")
         private Long id;
         private String url;
         private String user;
         private String password;
         private Integer type;
-        private String default_from_address;
+        @Column("default_from_address")
+        private String defaultFromAddress;
         private String currency;
-        private String link_type;
+        @Column("link_type")
+        private String linkType;
+        @Column(value = "`enabled`", format = "%s")
         private Integer enabled;
         private String remark;
+        private String extra;
     }
 
 

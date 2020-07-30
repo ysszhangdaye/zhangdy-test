@@ -2,6 +2,7 @@ package com.zhangdy.util;
 
 import com.zhangdy.test.annotation.Column;
 import com.zhangdy.test.annotation.AutoGenerateValue;
+import com.zhangdy.test.annotation.ID;
 import com.zhangdy.test.annotation.TableName;
 import com.zhangdy.test.enums.GenerateTypeEnum;
 import org.apache.commons.lang3.StringUtils;
@@ -12,14 +13,11 @@ import java.util.UUID;
 
 public class GenerateSqlUtil {
 
-    public static String genSql(Object object) throws Exception{
-        TableName tableName = object.getClass().getAnnotation(TableName.class);
-        if (tableName == null || StringUtils.isBlank(tableName.value())) {
-            throw new RuntimeException("表名不能为空！！！");
-        }
+
+    public static String generateInsertSql(Object object){
         Field[] fields = object.getClass().getDeclaredFields();
         SQL sql = new SQL(){{
-            INSERT_INTO(tableName.value());
+            INSERT_INTO(getTableName(object));
             for (Field field : fields) {
                 field.setAccessible(true);
                 Object value = getValue(field, object);
@@ -36,10 +34,22 @@ public class GenerateSqlUtil {
                     }
                     formatStr = column.format();
                 }
-                VALUES(columnName, String.format(formatStr, value));
+                int length = formatStr.split("%").length;
+
+                Object[] args = new Object[length-1];
+                for (int i = 0; i < args.length; i++) {
+                    args[i] = value;
+                }
+
+                VALUES(columnName, String.format(formatStr, args));
             }
         }};
         return sql.toString() + ";";
+    }
+
+    @Deprecated
+    public static String genSql(Object object) {
+        return generateInsertSql(object);
     }
 
 
@@ -59,5 +69,66 @@ public class GenerateSqlUtil {
         }
         return null;
     }
+
+
+    public static String generateUpdateSql(Object object){
+        Field[] fields = object.getClass().getDeclaredFields();
+        SQL sql = new SQL(){{
+            UPDATE(getTableName(object));
+            Field idField = null;
+            for (Field field : fields) {
+                field.setAccessible(true);
+                ID id = field.getAnnotation(ID.class);
+                if (id != null) {
+                    idField = field;
+                    continue;
+                }
+                Object value = getValue(field, object);
+                if (value == null) {
+                    continue;
+                }
+                Column column = field.getAnnotation(Column.class);
+                String columnName = field.getName();
+                String formatStr = "'%s'";
+                if (column != null) {
+                    if (StringUtils.isNotBlank(column.value())) {
+                        columnName = column.value();
+                    }
+                    formatStr = column.format();
+                }
+                int length = formatStr.split("%").length;
+                Object[] args = new Object[length-1];
+                for (int i = 0; i < args.length; i++) {
+                    args[i] = value;
+                }
+                SET(columnName + "=" + String.format(formatStr, args));
+            }
+            Object value = getValue(idField, object);
+            Column column = idField.getAnnotation(Column.class);
+            String columnName = idField.getName();
+            String formatStr = "'%s'";
+            if (column != null) {
+                if (StringUtils.isNotBlank(column.value())) {
+                    columnName = column.value();
+                }
+                formatStr = column.format();
+            }
+            WHERE(columnName +"="+ String.format(formatStr, value));
+        }};
+        return sql.toString() + ";";
+    }
+
+
+
+
+
+    public static String getTableName(Object object){
+        TableName tableName = object.getClass().getAnnotation(TableName.class);
+        if (tableName == null || StringUtils.isBlank(tableName.value())) {
+            throw new RuntimeException("表名不能为空！！！");
+        }
+        return tableName.value();
+    }
+
 
 }

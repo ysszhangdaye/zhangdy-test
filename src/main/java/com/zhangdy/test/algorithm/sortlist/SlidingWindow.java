@@ -10,9 +10,7 @@ public class SlidingWindow {
 
         // 初始化滑动窗口最小值 （实际业务为主可以为-1 0 ）
         Node head = new Node(-1, null);
-
         traverse(head);
-
         addAndRefresh(1L, head);
         System.out.println("#加入 " + 1);
         traverse(head);
@@ -68,7 +66,12 @@ public class SlidingWindow {
             return true;
         }
         // 链表里有命中幂等  没有则 未命中幂等
-        return contains(key, head);
+        boolean contains = contains(key, head);
+        if (contains) {
+            return true;
+        }
+        addAndRefresh(key, head);
+        return false;
     }
 
 
@@ -135,7 +138,6 @@ public class SlidingWindow {
    public static class Node {
         public long value;
         public Node next;
-
         public Node(long value, Node next){
             this.value = value;
             this.next = next;

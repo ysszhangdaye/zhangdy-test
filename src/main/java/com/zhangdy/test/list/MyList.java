@@ -2,6 +2,8 @@ package com.zhangdy.test.list;
 
 import com.alibaba.fastjson.JSON;
 
+import java.math.BigDecimal;
+
 public class MyList {
 
 
@@ -10,7 +12,15 @@ public class MyList {
         newhead.next = head;
     }
 
-    public static void tailInsert(ListNode tail, ListNode newTail){
+    public static void tailInsert(ListNode head, ListNode newTail){
+        ListNode tail = head;
+        while(tail != null){
+            if (tail.next == null) {
+                break;
+            }
+            tail = tail.next;
+        }
+
         tail.next = newTail;
     }
 
@@ -36,19 +46,20 @@ public class MyList {
     }
 
 
-
     public static ListNode reverseList(ListNode head){
         ListNode pre = null;
         ListNode next = null;
-        while (head != null) {
+         while (head != null) {
              next = head.next;
              head.next = pre;
              pre = head;
              head = next;
-        }
-        return pre;
+         }
 
+        return pre;
     }
+
+
 
     public static ListNode getMid(ListNode head){
         ListNode fast = head;
@@ -155,36 +166,55 @@ public class MyList {
 
 
     public static void main(String[] args) {
-        ListNode head1 = new ListNode(0);
+        ListNode head1 = new ListNode(4);
         ListNode head2 = new ListNode(1);
-
         ListNode node2 = new ListNode(2);
         ListNode node5 = new ListNode(5);
-        ListNode node6 = new ListNode(6);
-        ListNode node8 = new ListNode(8);
         head1.next =   node2;
         node2.next =   node5;
-        node5.next =   node6;
-        node6.next =   node8;
 
         ListNode node3 = new ListNode(3);
         ListNode node4 = new ListNode(4);
-        ListNode node7 = new ListNode(7);
-        ListNode node9 = new ListNode(9);
         head2.next = node3;
         node3.next = node4;
-        node4.next = node7;
-        node7.next = node9;
 
         traverse(head1);
         traverse(head2);
 
-//        ListNode listNode = mergeList(head1, head2);
-        ListNode listNode = mergeCycle(head1, head2);
 
-        traverse(listNode);
+        ListNode headA = reverseList(head1);
+        ListNode headB = reverseList(head2);
+        BigDecimal val1 = getIntValue(headA);
+        BigDecimal val2 = getIntValue(headB);
+        BigDecimal val =  val1.add( val2);
+        System.out.println(val);
+        String str = val.stripTrailingZeros().toPlainString();
+
+        ListNode head = new ListNode(Integer.parseInt(str.substring(0, 1)));
+        for(int i=1; i<str.length() ; i++){
+            String substring = str.substring(i, i + 1);
+            tailInsert(head, new ListNode(Integer.parseInt(substring)));
+        }
+
+        traverse(head);
 
 
+//
+////        ListNode listNode = mergeList(head1, head2);
+//        ListNode listNode = mergeCycle(head1, head2);
+//
+//        traverse(listNode);
+
+
+    }
+
+    public static BigDecimal getIntValue(ListNode head){
+        String str = "";
+        while(head != null){
+            str += String.valueOf(head.value);
+            head = head.next;
+        }
+        return new BigDecimal(str);
     }
 
 
@@ -195,13 +225,8 @@ public class MyList {
         node1.next = node2;
         node2.next = node3;
         node3.next = null;
-
-
         System.out.print("原始链表     ---> ");
         traverse(node1);
-
-
-
         ListNode node = new ListNode(0);
         headInsert(node1, node);
         System.out.print("插入头节点   ---> ");
@@ -238,6 +263,9 @@ public class MyList {
 //
 //        System.out.println(getMid(node).value);
     }
+
+
+
 
 
     public static void traverse(ListNode head){
