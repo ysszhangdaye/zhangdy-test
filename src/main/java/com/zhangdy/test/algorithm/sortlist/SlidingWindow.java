@@ -68,7 +68,12 @@ public class SlidingWindow {
             return true;
         }
         // 链表里有命中幂等  没有则 未命中幂等
-        return contains(key, head);
+        boolean result = contains(key, head);
+        if (result) {
+            return true;
+        }
+        addAndRefresh(key, head);
+        return false;
     }
 
 

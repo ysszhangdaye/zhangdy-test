@@ -56,6 +56,9 @@ public class FirstTest {
             this.count = count;
         }
 
+        public WordWithCount(Object word, Object count) {
+        }
+
         @Override
         public String toString() {
             return word + " : " + count;
