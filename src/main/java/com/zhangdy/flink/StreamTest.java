@@ -21,7 +21,7 @@ public class StreamTest {
                 .keyBy(0)
                 .sum(1);
 
-        word.print();
+        word.print().setParallelism(2);
 
         env.execute("test");
 
