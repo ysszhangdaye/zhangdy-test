@@ -18,39 +18,46 @@ public class TestDidiPay extends DidiPay {
 
     @Test
     public void testAddressCheck(){
-        int i = Integer.parseInt("008");
-        System.out.println(
-                i
-        );
 
-//        ApiResponse<Object> apiResponse = apiClient.addressCheck("LTC", "3PohT1yDk6eS6tWoB8wr92kM14dsnPWsXd");
-//        log.info("{}", JSON.toJSONString(apiResponse));
-//        ApiResponse<Object> apiRespons1e = apiClient.addressCheck("ETH", "0x8419829921f1daa2614bcb26ab8e55baa55f1a6d");
-//        log.info("{}", JSON.toJSONString(apiRespons1e));
+        ApiResponse<Object> apiResponse = apiClient.addressCheck("LTC", "3PohT1yDk6eS6tWoB8wr92kM14dsnPWsXd");
+        log.info("{}", JSON.toJSONString(apiResponse));
+        ApiResponse<Object> apiRespons1e = apiClient.addressCheck("ETH", "0x8419829921f1daa2614bcb26ab8e55baa55f1a6d");
+        log.info("{}", JSON.toJSONString(apiRespons1e));
+    }
+
+    @Test
+    public void testRechargeAddress(){
+        String currency = "XRP";
+        String num = "zhangdy-6";
+        int count = 25;
+        ApiResponse<List<ApiAddress>> agencyRechargeAddress = apiClient.createAgencyRechargeAddress(currency, count, num);
+        System.out.println(JSON.toJSONString(agencyRechargeAddress));
     }
 
 
     @Test
-    public void test3des(){
-        String token = "b6245c0b96e74559aa8db66214d69f53";
-        try {
-            String text = "123abc!@#";
-            String encryptedData = AlgorithmUtils.encryptWith3DES(text, token);
-            System.out.println(encryptedData);
-
-            String text2 = AlgorithmUtils.decryptWith3DES(encryptedData, token);
-
-            System.out.println(text2);
-            System.out.println(text.equalsIgnoreCase(text2));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void test3des() throws Exception{
+        String s = "FqcMiqmAT2VyQJ/k1bIiEYmSZNOE2+1grK3R1ElKUpzFANiCsdDuRf+a6978teH3RB7X7BqvXJMB2z6sx25tm7lvpEfGT7nPzHl9Em6VKThAgMdU5/uosGwVPdYzuPE+7dF8rGDucqYWB7PGgI+JEjAFT/Of3B4RWb3tpgXHr4TQ5I/6FjfDsvbQ7aWYjQsqyUG0mE2SuXYsQ57ofiC193ClLRah4Rz9oiEFeDl7zEtBjvu+t/trBiESK4D7jEg4IyX0XRvrhrma6c666sH5vWuvZRnY9FmiYVU3j0skoX72pkBjNtvlkWrOOQQ5I4tGXvOVowyummI8shfd21zy5bIAHiPNd9s6GCS2wu6ncP5OHfzlepvTN44GlDBi+n0UWXElbHozuU+Y8H4FjOlTUBV5CWNXscpgHY/xDqFFfPSaNbtwkadQfUI4JmaRnPagXxlsZj8LsHDTsHe2g75xP8Zx6zyCLAPc7pKW8Lq3JYh4hNFcxTbL6PGygyYHdlvcgUno3SJRMz3R8XKSZQm2IufkOfxe2ZbMTDpZXYeTbEZZ3LW+m7pzsW18KgLVwBWZuXEH4Fh20HnMNmY8kS/OeakSyjSSTyd+T/zDF9+o7OysUcfNDacCTEfGbXxpUCRrv5X/lpTCayjnviLvyRrnQ56nvxbO/oozeIEEiWpfAZsVInCjXe3wWzJPsdgdjKKvvxKie/aINDeVT7exdx/7MA==";
+        String s1 = AlgorithmUtils.decryptWithAES(s, "6467b3eecd434a6a8ae2d33107f5a0ae");
+        System.out.println(s1);
+//        String token = "b6245c0b96e74559aa8db66214d69f53";
+//        try {
+//            String text = "123abc!@#";
+//            String encryptedData = AlgorithmUtils.encryptWith3DES(text, token);
+//            System.out.println(encryptedData);
+//
+//            String text2 = AlgorithmUtils.decryptWith3DES(encryptedData, token);
+//
+//            System.out.println(text2);
+//            System.out.println(text.equalsIgnoreCase(text2));
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Test
     public void testAddAddress(){
-
         CountDownLatch countDownLatch = new CountDownLatch(5);
         for (int j = 0; j < 5; j++) {
             new Thread(()->{

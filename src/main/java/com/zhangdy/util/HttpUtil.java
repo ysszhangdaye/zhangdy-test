@@ -324,6 +324,7 @@ public class HttpUtil {
 
 
     public static String reqPostJson(String strUrl, String content, Map<String, String> headers) throws Exception {
+        System.out.print("req" + content + "       ------- ");
         String result = "";
         RequestConfig defaultRequestConfig = RequestConfig.custom().setSocketTimeout(60000).setConnectTimeout(60000)
                 .setConnectionRequestTimeout(60000).build();

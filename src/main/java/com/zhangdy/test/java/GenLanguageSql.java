@@ -1,7 +1,6 @@
 package com.zhangdy.test.java;
 
 import com.google.common.collect.Lists;
-import com.zhangdy.util.IDS;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +13,7 @@ import java.util.List;
 
 public class GenLanguageSql {
 
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
 //        test("C:\\Users\\it\\Desktop\\account-er.txt");
 //        test("D:\\a.txt");
 
@@ -115,28 +114,32 @@ public class GenLanguageSql {
 //    id-id 印尼语
 //    ru-ru 俄语
 
-//    public static void test(String path) {
-//        List<File> files = Lists.newArrayList();
-//        String SQL = "INSERT INTO `icc_operation`.`meta_language` (`code`, `enabled`, `language`, `message` ) VALUES('%s','1','%s','%s');";
-//        try {
-//            List<String> sqlList = Lists.newArrayList();
-//            File file = new File(path);
-//            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-//            String lineTxt = null;
-//            String language  = "ko-kr";
-//            while ((lineTxt = br.readLine()) != null) {
-//                String[] array = lineTxt.split("\t");
-////                System.out.println(array[0] + "  " + array[3]);
-//                String code = array[0];
-//                String msg = array[3];
-//                String format = String.format(SQL, code, language, msg);
-//                System.out.println(format);
-//            }
-//            br.close();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
+    public static void genMetaLanguageSql(String path) {
+        List<File> files = Lists.newArrayList();
+        String SQL = "INSERT INTO `i18n_meta_language` (`code`, `enabled`, `language`, `message` ) VALUES('%s','1','%s','%s');";
+        try {
+            List<String> sqlList = Lists.newArrayList();
+            File file = new File(path);
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String lineTxt = null;
+            String language  = "en-us";
+            while ((lineTxt = br.readLine()) != null) {
+                String[] array = lineTxt.split("\t");
+//                System.out.println(array[0] + "  " + array[3]);
+                String code = array[0];
+                String msg = array[2];
+                String format = String.format(SQL, code, language, msg);
+                System.out.println(format);
+            }
+            br.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args) {
+        genMetaLanguageSql("d:\\decenter-wallet.txt");
+    }
 }

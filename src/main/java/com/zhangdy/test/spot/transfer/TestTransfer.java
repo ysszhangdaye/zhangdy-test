@@ -10,42 +10,42 @@ public class TestTransfer {
 
     public static void main(String[] args) {
 
-        long userId = 1006806222206443520L;
+        long userId = 1006417678765957120L;
 
-        long accountId = 1006816753890656256L;
-        long inAccountId = 1006816753890656256L;
+        long accountId = 1006421331775164416L;
+        long inAccountId = 1006421331775164416L;
 
-        long capitalDetailId = 1006917344801357824L;
-        long inCapitalDetailId = 1006917344801357824L;
+        long capitalDetailId = 1040757448906608640L;
+        long inCapitalDetailId = 1040757448906608640L;
 
-        long outAccountId = 1021397619151704064L;
-        long outCapitalDetailId = 1021397785447317504L;
+        long outAccountId = 1006417679475904512L;
+        long outCapitalDetailId = 1006417679475904512L;
 
 
         int inAccountType = 1001;
-        int outAccountType = 1004;
+        int outAccountType = 1002;
 
-        String currency = "USDT";
-        String feeCurrency = "USDT";
+        String currency = "YQS";
+        String feeCurrency = "YQS";
         BigDecimal outBeforeBalance = new BigDecimal("0");
         BigDecimal outAfterBalance= new BigDecimal("0");
         BigDecimal inBeforeBalance = new BigDecimal("0");
         BigDecimal inAfterBalance= new BigDecimal("0");
-        BigDecimal amount = new BigDecimal("1.2959");
+        BigDecimal amount = new BigDecimal("0.77540000000000000000");
         BigDecimal fee = new BigDecimal("0");
 
-        String sourceId = "1042595661501288449";
+        String sourceId = "1042565714683072513";
         int cause = 10005;
-        String description = "20200624-转账手动转入";
+        String description = "20200807-转账手动转入";
         Date date = new Date();
 
-        long transferOrderId = 1042595661501288449L;
+//        long transferOrderId = 1042404226267250689L;
 
-        AccountTransferOrder accountTransferOrder = AccountTransferOrder.create(transferOrderId, userId, inAccountId, outAccountId, inCapitalDetailId, outCapitalDetailId,
-                1001, 1004, currency, amount);
-        System.out.println("# 转账订单");
-        String sql = GenerateSqlUtil.generateInsertSql(accountTransferOrder);
-        System.out.println(sql);
+//        AccountTransferOrder accountTransferOrder = AccountTransferOrder.create(transferOrderId, userId, inAccountId, outAccountId, inCapitalDetailId, outCapitalDetailId,
+//                1001, 1004, currency, amount);
+//        System.out.println("# 转账订单");
+//        String sql = GenerateSqlUtil.generateInsertSql(accountTransferOrder);
+//        System.out.println(sql);
 
 
         CapitalWater capitalWater = convertCapitalWater(userId, accountId, capitalDetailId, inAccountType,

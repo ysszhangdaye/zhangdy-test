@@ -50,6 +50,12 @@ public class BaseDubbo {
         ACCOUNT_DEV_TEST_B("account", "1.0.1", "10.10.23.203:21807"),
         ACCOUNT_DEV_ADMIN_LOCAL("account-admin", "1.0.1", "192.168.21.199:21807"),
 
+
+
+        DECENTER_WALLET_LOCAL("decenter-wallet", "1.0.0", "localhost:22022"),
+        DECENTER_WALLET_LOCAL2("decenter-wallet", "1.0.0", "localhost:22023"),
+        DECENTER_WALLET_DEV("decenter-wallet", "1.0.0", "10.10.23.207:22022"),
+
         ;
 
         String group;

@@ -1,7 +1,6 @@
 package com.zhangdy.test.string;
 
 import com.google.common.collect.Lists;
-import com.zhangdy.util.ThreadUtil;
 import org.apache.http.nio.client.HttpAsyncClient;
 
 import java.math.BigDecimal;
@@ -20,7 +19,6 @@ public class TestString {
     public void test1(){
         try{
             System.out.println(1);
-            ThreadUtil.SET_MILLISECONDS(500);
 
             test1();
 
@@ -33,14 +31,20 @@ public class TestString {
 
     public static void main(String[] args) {
 
-        Class<TestString> clazz = TestString.class;
+//        Class<TestString> clazz = TestString.class;
+//
+//        System.out.println(clazz.getName());
 
-        System.out.println(clazz.getName());
 
+//        String a = "asdsad";
+//        a.substring(1);
 
 //       TestString a= new TestString();
 //       a.test1();
 
+
+        String a = "asjdjasd";
+        System.out.println(a == "asjdjasd".intern());
 
 //
 //
