@@ -9,13 +9,13 @@ public class Test {
     public static void main(String[] args) {
 
 
-//        UserService userService = new UserServiceImpl();
-//
-//        UserService proxyInstance = (UserService) Proxy.newProxyInstance(userService.getClass().getClassLoader(),
-//                userService.getClass().getInterfaces(), new UserServiceProxy(userService));
-//
-//
-//        proxyInstance.getUserById(1L);
+        UserService userService = new UserServiceImpl();
+
+        UserService proxyInstance = (UserService) Proxy.newProxyInstance(userService.getClass().getClassLoader(),
+                userService.getClass().getInterfaces(), new UserServiceProxy(userService));
+
+
+        proxyInstance.getUserById(1L);
 
     }
 

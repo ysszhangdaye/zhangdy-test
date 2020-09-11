@@ -132,9 +132,8 @@ public class DbBase {
                 Object value = resultSet.getObject(fName);
                 fName = CustomStringUtils.replaceUnderlineAndfirstToUpper(fName, "_", "");
                 Field field = clazz.getDeclaredField(fName);
-                String setName = "set" + fName.toUpperCase().substring(0, 1) + fName.substring(1);
-                Method setMethod = clazz.getMethod(setName, field.getType());
-                setMethod.invoke(t, value);
+                field.setAccessible(true);
+                field.set(t, value);
             }
         } catch (Exception e) {
             e.printStackTrace();
