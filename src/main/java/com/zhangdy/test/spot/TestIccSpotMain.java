@@ -231,7 +231,8 @@ public class TestIccSpotMain {
                 .qty(randomVolume())
                 .build();
         String content = entrust.toFromStr();
-        String resp = HttpUtil.reqPostString(DEV_URL + ENTRUST,content, headers);
+        String url = DEV_URL + ENTRUST;
+        String resp = HttpUtil.reqPostString(url, content, headers);
         System.out.println("限价买委托--->price" + entrust.getPrice() + " ---> " + resp);
         checkFrequently(resp);
     }

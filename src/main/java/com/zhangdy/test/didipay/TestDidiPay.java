@@ -5,7 +5,6 @@ import com.didipay.openapi.sdk.ApiClient;
 import com.didipay.openapi.sdk.DefaultApiClient;
 import com.didipay.openapi.sdk.model.*;
 import com.didipay.openapi.sdk.utils.AlgorithmUtils;
-import com.zhangdy.util.IDS;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

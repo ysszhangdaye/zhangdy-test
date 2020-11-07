@@ -1,7 +1,6 @@
 package com.zhangdy.test.mysql;
 
 import com.zhangdy.util.DbBase;
-import com.zhangdy.util.ThreadUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

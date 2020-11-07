@@ -6,6 +6,7 @@ public class TestQuickSort {
 
     public static void main(String[] args) {
 
-
+        new HashMap<>(3);
+        new HashMap<>();
     }
 }
