@@ -21,6 +21,7 @@ import java.util.List;
 public class DidiPayAccountBalanceSignTest {
 
     private static final String PRIVATE_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKEECxqR1M+tnykV59sYc6oGe3VM2wWgN20oxvpbMxhZm+K6oKX5E6JtuIiVrlQkMLR0QDLm3H1RdxmkAMRsQRywozi8QDSf30PazbMSl4HkFRurwlvDpQqz2tagaAqoqbBcun9pKM/eIg0tw5YnV2MvNyJwh4tbXDJWy2crOM67AgMBAAECgYBCAtpahjbs/Y0m1ug7Foc0yXuL13pjkA+pHPKWaRVFglc6WLDL2pWGHd1tgY/6xuuAz7gSJjt21RMy293EqWz3o6SXgzzTMk6z2BY60hOujpHd0FCRUxXRRY/zt8R5u0F9CwqpSa8k7qp+torTjlFj5IGU4/rltPI9ufa/OnNdoQJBAM5kXUiiumGnus/zNfnJWvSjYy4B2GbRICjWQQ1ECHG/OnfSlriBwrx+k7ZqhGmHkxO1rRW+qEGUo9TZD52xVscCQQDHt5raXNDhZT/g30Name6pAj0Z4A3xKzpbIyNa4pf/i9MwGqvcDuudDS9KNVaPr9qR+46ILa2N8jeIktwFBkRtAkA9tAGzenrwQR33l4WWhN09cC9xjLmum2za6JsQJTvFDd+j/QB0bs7SXaE5kwS9K/wLk3AIpTRWTuLf+njRszf3AkAtMWD7NLGXr3+q9Rqar+aPnBATgN3myu9jnCnt8QSQMSXS5tYo779lRIyE8FjsHtEI47G3Iw745eynHQRopqhpAkEAlFeV5fcDc1wsxFQt8jgFf3VK/khikJaDRKt1Pa0OtcNhb0goxfEWu3FqL6v/OrbDtiIDFP0r9CCr+WUzsdHIIA==";
+    private static final String test_PRIVATE_KEY = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAKiUU+Zo/TwkuR4XMpZWM2f9y7/TNjUyENgv+sA0FuNqbDwVtMBSmCANHqdiM6VUD3PWDTDO9aAO+H6KekglQebPJIAkbiJDRdfRkhgayz5mA3Nkec7sDXvCybAuDZh2cqgpYM1zs2H6JppQbgtAO24BTaSruOKPeDNAeKVWK5bfAgMBAAECgYEAh/KOMorKZV0sGDMW7Zv4es12KWz4EzAb22vd6HBZYO5q+I18pXg2C+ropI2SHqrKh1zAaHMOLBTGmq2r7VB2co+zxJ2sPV1zR9r2weqrGeAD5BU/mn789RRk5W/shi9dYt8zTDBq/b2vRdylmOIL1zCY6Y94gstJj0pL4BE/dykCQQDWMhXN3JHTth8XVwjgLjVbIL4wb0OLMMvhm1I4DVRJUUdb+RmtAf8RAwdbMqn4mSoXOGr2fnSEVji5/r+0CUKNAkEAyXsbJkRR4Sj6Z0hLGKnApXyJdUxoK7Q0/tILfvquTfuv9P4hLgKrZR25lTTEAM8eJ6C4r7rs0QoMI1jMKfxaGwJBAKt0tBdxdBmwMvsP5D7vPi6P6y4CImMM0GbrWckcgleeBC0PHQpsCqynbAAIch5ZHGQx+Q0O9F3qVsYrsXB/6RECQQC4NNNXozLxFtQJRbFS9TBqnHfYRGkhO/sP1t4n0+004x22cfnH5Szqn8iiv8FLtBEvzePM1qvZWsRKNM9Eu7FtAkBrqTjfwMjvZAonAQhU4OmKfd0hBeLshi953r7fsXUUTDLGx5liD80sc8hyaAxjs15iJi+MdHdRZ1Qkun6Ld1C1";
     private static final String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQChBAsakdTPrZ8pFefbGHOqBnt1TNsFoDdtKMb6WzMYWZviuqCl+ROibbiIla5UJDC0dEAy5tx9UXcZpADEbEEcsKM4vEA0n99D2s2zEpeB5BUbq8Jbw6UKs9rWoGgKqKmwXLp/aSjP3iINLcOWJ1djLzcicIeLW1wyVstnKzjOuwIDAQAB";
 
     private static final String URL         = "jdbc:mysql://10.10.23.119:5001/didipay_account?characterEncoding=utf-8&useSSL=false";
@@ -84,15 +85,16 @@ public class DidiPayAccountBalanceSignTest {
     public static void updateSign() {
 //        Connection  connection  = DbBase.getConnection(URL, USER_NAME, PASSWORD);
         Connection  connection  = DbBase.getConnection(TEST_URL, TEST_USER_NAME, TEST_PASSWORD);
-        Long        userId      = 1091904311150161920L;
-        String      querySql    = "SELECT * FROM account_balance WHERE user_id=? and id<>1091908936521789441";
+        Long        userId      = 1092940495552950272L;
+        Long        id      = 1093326415334780929L;
+        String      querySql    = "SELECT * FROM account_balance WHERE ID=?  ";
         String      signSql     = "update account_balance set sign=? , available_balance=? where id=?";
 
         PreparedStatement preparedStatement = null;
         try {
-            List<Object> queryParam     = Lists.newArrayList(userId);
+            List<Object> queryParam     = Lists.newArrayList(id);
             List<AccountBalance> list   = DbBase.findList(querySql, connection, queryParam, AccountBalance.class);
-            BigDecimal balance          = new BigDecimal("0");
+            BigDecimal balance          = new BigDecimal("500");
 
             preparedStatement   = connection.prepareStatement(signSql);
             boolean execute     = false;
@@ -234,12 +236,12 @@ public class DidiPayAccountBalanceSignTest {
         }
 
         public String signData(BigDecimal balance) {
-            String sign = RsaUtils.signData(getSignData(balance), PRIVATE_KEY);
+            String sign = RsaUtils.signData(getSignData(balance), test_PRIVATE_KEY);
             return sign;
         }
 
         public String signData() {
-            String sign = RsaUtils.signData(getSignData(), PRIVATE_KEY);
+            String sign = RsaUtils.signData(getSignData(), test_PRIVATE_KEY);
             return sign;
         }
 

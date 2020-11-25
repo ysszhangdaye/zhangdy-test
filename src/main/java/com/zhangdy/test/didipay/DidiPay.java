@@ -1,7 +1,7 @@
 package com.zhangdy.test.didipay;
 
-import com.didipay.openapi.sdk.ApiClient;
-import com.didipay.openapi.sdk.DefaultApiClient;
+import net.iccbank.openapi.sdk.ApiClient;
+import net.iccbank.openapi.sdk.DefaultApiClient;
 import org.junit.Before;
 
 public class DidiPay {
@@ -37,10 +37,10 @@ public class DidiPay {
 
     @Before
     public void init(){
-        String endpoint     = "http://58.33.9.130:41008/";
-        String appId        = "1c7db7a163104686be58189813e45b60";
-        String appSecret    = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIOqNhcRTwq5HGLD89X4R9dNCHpx6m/92XdWUBFP3xMimwyr3q0nQ+ub6qzNI8MVPNtmKZf7niQOGd1XcugrMi3hIHN5Ug4K8HAwqu9ulqrGq5kR/FI1DsyKOvaNY+jLuDvaE/bZAtyPIFGXfM0hbWHAdWNouhWl4xV26VcPJs4XAgMBAAECgYAMFpeKvKMWJ/KsOrNrZLUr1j2+CDFvAM5zf3AwdrXTauzzV+BE44L/4bvFC7yJz6xbtGCDPK3DP6wuPzYkjLq5i7RTlDInKs5awJP5SirreHgmbpH3Mj3Bme9eJiyWr1O8YU/7MK1uIU4gitwZikBLFqnSgl/5Aq2PoNCcsUGy2QJBAMztSBQLqGI+mJ7FaLL6wNEnAs6Ya/16Jv3v4PwDqaSwT+hYAAT9RNdJyk1ZGP3ZLKcynTK+2tS67wS1K+lpms0CQQCkeq1v1nxAsJWgVNUjqv2ZS0gTS9P/onA1VJGGMo7jMcyruwG8Cr+5BLKPP+UNVZuNM+sXB6MG/vPXwEs7l1RzAkBte1Nnyjaijjixklv2SvsagpIAV/RRzqHoRvDXEwnd/4ghZGpWQA04S6b2HeS5Mf6mMOdFBiwZPOmXhUc5g379AkAIKgKz22yddWZn5+4QcCtYUZFJS+lA9holu4XhqF7JTi5/k6+5Wrs7fs0yKRTAfbBT6PDRWtKvxTXrTqMtWQybAkEAniIVV1YEP8CF8GGVef4s0uw2lW0TSSX6GRhhkmV0JEQ7e6y+mKv29DOsE9FMQ0wpi6BjiS9XfeCQ713C/f4lAw==";
-        String token        = "c192525986f2410a9dfb10f16d961445";
+        String endpoint     = "http://localhost:41039/";
+        String appId        = "eb135de2a61847c699ca164efc4e067c";
+        String appSecret    = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJzsTn2qR0hrnqTiF6K0rME6aE1CA7fd3bRlm2KSykP45EC356tdWSCIQiTVbEdlmg/XCSUJwllf5hf9kBmmz4cyQFYo2C5I7OdUE13Z/9KzsrVB53jW6dR4fSWy1yl4nMKG22/qcXAaTd7s/o59AxIxrG6/RaC5wj0AV8kP26NxAgMBAAECgYB2HKc3juL4b4iJMmP342XkSsIW5IlH64bkMVYza6kyYDPtQn7tTOW4xtaCQuGtG5xKL+CCMEZIXxYhGIlNxXCNcV7gF4ZcUi+jqaTcZMkpzUv+/VA9P1Wbk9wGVZ/oRa7oMplgG4eOo+Th8RYDOrGcjf9llUPUjP25QMz/rnJMAQJBAOa1NVvTK+1fPx/9Qs4WGf0CaZbkUeg+w0JaqrF+pfcHSe8OCO9bhwo3YkTTE0zaDSS9k62v7qmpBoBOfG/fMPkCQQCuIFYTplQFTMaL5OrAp0zQ+yFauHKp0QqE+ryDGUBNEV8tF8nZ6hj/i57WNqst5KS7FJ5YXZhmhvQ+vNIWYpw5AkEAi4ad7ZnJ4DYRRDRzuZVuRDC4URRmYNHMXw3cW5ofn0VeNmBDkRbGlawnFz6cVoctGcI5VPqomRzrHJ/a7AGMaQJAKXFMy1R0/uXtA3KyZLPs1nhO0fbAY6Z7KHc80r75zN3rlyHoStMqq/ehED7msv+OLXCU11c/ZHeOPjhWkDlcEQJBAL8eaoSyooOPbjSie1bf1K3nlpYhEfP5dpXLMe+J/a+0iU0oACPcHhk4p+HaOxOuc7oMV7H0IvbLJLi0ztey7m8=";
+        String token        = "fe10a24312224b1d81c89213faf7e576";
         apiClient           = new DefaultApiClient(endpoint, appId, appSecret, token);
     }
 

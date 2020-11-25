@@ -348,7 +348,7 @@ public class HttpUtil {
             // 设置编码格式
             se.setContentEncoding("UTF-8");
             // 设置数据类型
-            se.setContentType("application/json");
+            se.setContentType("application/json;charset=UTF-8");
             // 对于POST请求,把请求体填充进HttpPost实体.
             post.setEntity(se);
             try (CloseableHttpResponse response = httpclient.execute(post)) {
